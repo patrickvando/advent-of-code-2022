@@ -26,22 +26,6 @@ class rock:
             occupied.add((py + self.offset_y, px + self.offset_x))
         return occupied
 
-    def __str__(self):
-        res = []
-        for py, px in self.body:
-            res.append("({},{})".format(py + self.offset_y, px + self.offset_x))
-        return ",".join(res)
-
-def visualize(occupied):
-    if not occupied:
-        return ""
-    tallest = min([py for py, px in occupied])
-    grid = [['.' for c in range(7)] for rows in range(-tallest + 1)]
-    for py, px in occupied:
-        grid[py - tallest][px] = '#'
-    return "\n".join("".join(row) for row in grid)
-     
-
 rocks = {}
 rocks[0] = rock([(0, 0), (0, 1), (0, 2), (0, 3)], 4, 1)
 rocks[1] = rock([(0, 1), (1, 0), (1, 1), (1, 2), (2, 1)], 3,  3)
@@ -56,10 +40,9 @@ rock_ind = 0
 rocks[rock_ind].offset_y = -2  - rocks[rock_ind].height
 rocks[rock_ind].offset_x = 2
 fallen_rocks = 0
-while fallen_rocks < 3:
+while fallen_rocks < 2022:
     next_dir = dirs[dir_ind]
     current_rock = rocks[rock_ind]
-    print(visualize(current_rock.add_rock(occupied.copy())))
     current_rock.offset_x += next_dir
     if not current_rock.check_rock(occupied):
         current_rock.offset_x -= next_dir
